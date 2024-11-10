@@ -4,3 +4,4 @@ refresh
 r.json
 login
 vendor/
+__debug_*

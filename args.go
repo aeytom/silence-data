@@ -5,20 +5,22 @@ import (
 	"log"
 	"os"
 
+	"github.com/aeytom/silence-data/hass"
 	"github.com/go-yaml/yaml"
 )
 
 type DotEnv struct {
 	Silence struct {
-		Email    string `yaml:"email" json:"email"`
-		Password string `yaml:"password" json:"password"`
-	} `yaml:"silence" json:"silence"`
+		Email    string `yaml:"email" json:"email,omitempty"`
+		Password string `yaml:"password" json:"password,omitempty"`
+	} `yaml:"silence" json:"silence,omitempty"`
 	Influx struct {
 		Org    string `yaml:"org,omitempty" json:"org,omitempty"`
 		Bucket string `yaml:"bucket,omitempty" json:"bucket,omitempty"`
-		Token  string `yaml:"token" json:"token"`
-		Url    string `yaml:"url" json:"url"`
-	} `yaml:"influx" json:"influx"`
+		Token  string `yaml:"token" json:"token,omitempty"`
+		Url    string `yaml:"url" json:"url,omitempty"`
+	} `yaml:"influx" json:"influx,omitempty"`
+	HomeAssistant hass.Config `yaml:"home_assistant,omitempty" json:"home_assistant,omitempty"`
 }
 
 // Command line args

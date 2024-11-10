@@ -12,5 +12,5 @@ RUN GOOS=linux GOARCH=amd64 go install -ldflags="-w -s"
 
 FROM alpine:latest
 WORKDIR /
-COPY --from=builder /go/bin/silence ./
-ENTRYPOINT ["/silence"]
+COPY --from=builder /go/bin/silence-data ./
+ENTRYPOINT ["silence-data"]
