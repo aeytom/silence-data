@@ -1,6 +1,7 @@
 __debug_*
 .devcontainer
 .env.yaml
+docker-compose.yml
 login
 r.json
 refresh

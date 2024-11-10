@@ -1,0 +1,13 @@
+
+services:
+  silence:
+    image: silence-data:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - type: bind
+        source: ./.env.yaml
+        target: /.env.yaml
+        read_only: true
+
