@@ -1,6 +1,8 @@
-.env.yaml
-silence
-refresh
-r.json
-login
+__debug_*
 .devcontainer
+.env.yaml
+login
+r.json
+refresh
+silence-data
+vendor/
