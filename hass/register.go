@@ -57,7 +57,6 @@ func registerMeasurement(scooter *silence.ScooterResp, dev DiscoverDevice, c *Cl
 	}
 	topic := fmt.Sprintf("%s/%s/%s/config", c.DiscoveryPrefix, "sensor", oid)
 	c.Send(topic, 0, true, p)
-
 }
 
 func registerDevice(scooter *silence.ScooterResp, dev DiscoverDevice, c *Client) {
@@ -94,6 +93,7 @@ func (c *Client) Disconnect() {
 }
 
 func SendStatus(c *Client, scooter *silence.ScooterResp) {
+	SendAvailability(c, *scooter, true)
 	c.Send(fmt.Sprintf(StateTemplate, scooter.Id), 0, false, scooter)
 }
 
