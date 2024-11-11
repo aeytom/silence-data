@@ -35,8 +35,7 @@ func RegisterScooter(c *Client, scooter *silence.ScooterResp) {
 	registerMeasurement(scooter, dev, c, "Velocity", "km/h", "speed", "{{ value_json.velocity }}")
 
 	registerTracker(scooter, dev, c, "LastLocation")
-
-	c.Send(fmt.Sprintf(AvailabilityTemplate, scooter.Id), 0, false, "online")
+	SendAvailability(c, *scooter, true)
 	c.handles = append(c.handles, scooter)
 }
 
@@ -89,7 +88,7 @@ func registerTracker(scooter *silence.ScooterResp, dev DiscoverDevice, c *Client
 
 func (c *Client) Disconnect() {
 	for _, scooter := range c.handles {
-		c.Send(fmt.Sprintf(AvailabilityTemplate, scooter.Id), 0, true, "offline")
+		SendAvailability(c, *scooter, false)
 	}
 	c.Client.Disconnect(250)
 }
@@ -103,4 +102,12 @@ func SendLocation(c *Client, scooter silence.ScooterResp) {
 	scooter.LastLocation.CurrentSpeed = 0
 	scooter.LastLocation.Time = ""
 	c.Send(fmt.Sprintf(LocationTemplate, scooter.Id), 0, false, scooter.LastLocation)
+}
+
+func SendAvailability(c *Client, scooter silence.ScooterResp, available bool) {
+	pl := "offline"
+	if available {
+		pl = "online"
+	}
+	c.Send(fmt.Sprintf(AvailabilityTemplate, scooter.Id), 0, !available, pl)
 }
