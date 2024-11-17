@@ -27,11 +27,6 @@ type Meter interface {
 	HassSendValue()
 }
 
-type MeterState struct {
-	Value             float32 `json:"value,omitempty"`
-	UnitOfMeasurement string  `json:"unit_of_measurement,omitempty"`
-}
-
 type Availability struct {
 	PayloadAvailable    string `json:"payload_available,omitempty"`
 	PayloadNotAvailable string `json:"payload_not_available,omitempty"`
@@ -58,21 +53,19 @@ type HaDevice struct {
 }
 
 type DiscoveryPayload struct {
-	AvailabilityTopic      string   `json:"availability_topic,omitempty"`
-	CommandTopic           string   `json:"command_topic,omitempty"`
-	Device                 HaDevice `json:"device,omitempty"`
-	DeviceClass            string   `json:"device_class,omitempty"`
-	Name                   string   `json:"name,omitempty"`
-	ObjectId               string   `json:"object_id,omitempty"`
-	StateClass             string   `json:"state_class,omitempty"`
-	StateTopic             string   `json:"state_topic,omitempty"`
-	JsonAttributesTopic    string   `json:"json_attributes_topic,omitempty"`
-	JsonAttributesTemplate string   `json:"json_attributes_template,omitempty"`
-	SupportUrl             string   `json:"support_url,omitempty"`
-	SwVersion              string   `json:"sw_version,omitempty"`
-	UniqueId               string   `json:"unique_id,omitempty"`
-	UnitOfMeasurement      string   `json:"unit_of_measurement,omitempty"`
-	ValueTemplate          string   `json:"value_template,omitempty"`
+	CommandTopic           string `json:"command_topic,omitempty"`
+	DeviceClass            string `json:"device_class,omitempty"`
+	Name                   string `json:"name,omitempty"`
+	ObjectId               string `json:"object_id,omitempty"`
+	StateClass             string `json:"state_class,omitempty"`
+	StateTopic             string `json:"state_topic,omitempty"`
+	JsonAttributesTopic    string `json:"json_attributes_topic,omitempty"`
+	JsonAttributesTemplate string `json:"json_attributes_template,omitempty"`
+	SupportUrl             string `json:"support_url,omitempty"`
+	SwVersion              string `json:"sw_version,omitempty"`
+	UniqueId               string `json:"unique_id,omitempty"`
+	UnitOfMeasurement      string `json:"unit_of_measurement,omitempty"`
+	ValueTemplate          string `json:"value_template,omitempty"`
 }
 
 type DeviceDiscovery struct {
@@ -83,6 +76,12 @@ type DeviceDiscovery struct {
 	Origin       Origin                      `json:"origin,omitempty"`
 	Qos          int16                       `json:"qos,omitempty"`
 	StateTopic   string                      `json:"state_topic,omitempty"`
+}
+
+type EntityDiscovery struct {
+	Availability     Availability `json:"availability,omitempty"`
+	Device           HaDevice     `json:"device,omitempty"`
+	DiscoveryPayload `json:"discovery_payload,omitempty"`
 }
 
 type DeviceTrackerAttributes struct {
