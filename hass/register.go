@@ -28,7 +28,7 @@ func (c *Client) SendDiscovery(scooter silence.ScooterResp) {
 			ConfigurationUrl: "",
 			Connections: [][]string{
 				{"imei", scooter.Imei},
-				s{"btMac", scooter.BtMac}},
+				{"btMac", scooter.BtMac}},
 			HwVersion:    scooter.Revision,
 			Identifiers:  []string{scooter.Id},
 			Manufacturer: "Scutum",
