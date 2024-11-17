@@ -41,15 +41,15 @@ type Origin struct {
 }
 
 type HaDevice struct {
-	ConfigurationUrl string            `json:"configuration_url,omitempty"`
-	Connections      map[string]string `json:"connections,omitempty"`
-	HwVersion        string            `json:"hw_version,omitempty"`
-	Identifiers      []string          `json:"identifiers,omitempty"`
-	Manufacturer     string            `json:"manufacturer,omitempty"`
-	Model            string            `json:"model,omitempty"`
-	ModelId          string            `json:"model_id,omitempty"`
-	Name             string            `json:"name,omitempty"`
-	SwVersion        string            `json:"sw_version,omitempty"`
+	ConfigurationUrl string     `json:"configuration_url,omitempty"`
+	Connections      [][]string `json:"connections,omitempty"`
+	HwVersion        string     `json:"hw_version,omitempty"`
+	Identifiers      []string   `json:"identifiers,omitempty"`
+	Manufacturer     string     `json:"manufacturer,omitempty"`
+	Model            string     `json:"model,omitempty"`
+	ModelId          string     `json:"model_id,omitempty"`
+	Name             string     `json:"name,omitempty"`
+	SwVersion        string     `json:"sw_version,omitempty"`
 }
 
 type DiscoveryPayload struct {
