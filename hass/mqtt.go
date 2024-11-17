@@ -55,12 +55,13 @@ type HaDevice struct {
 type DiscoveryPayload struct {
 	CommandTopic           string `json:"command_topic,omitempty"`
 	DeviceClass            string `json:"device_class,omitempty"`
+	JsonAttributesTemplate string `json:"json_attributes_template,omitempty"`
+	JsonAttributesTopic    string `json:"json_attributes_topic,omitempty"`
 	Name                   string `json:"name,omitempty"`
 	ObjectId               string `json:"object_id,omitempty"`
+	Platform               string `json:"platform,omitempty"`
 	StateClass             string `json:"state_class,omitempty"`
 	StateTopic             string `json:"state_topic,omitempty"`
-	JsonAttributesTopic    string `json:"json_attributes_topic,omitempty"`
-	JsonAttributesTemplate string `json:"json_attributes_template,omitempty"`
 	SupportUrl             string `json:"support_url,omitempty"`
 	SwVersion              string `json:"sw_version,omitempty"`
 	UniqueId               string `json:"unique_id,omitempty"`
