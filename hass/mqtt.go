@@ -86,9 +86,9 @@ type EntityDiscovery struct {
 }
 
 type DeviceTrackerAttributes struct {
-	Longitude   float64 `json:"longitude"`
-	Latitude    float64 `json:"latitude"`
 	GpsAccuracy int16   `json:"gps_accuracy,omitempty"`
+	Latitude    float64 `json:"latitude"`
+	Longitude   float64 `json:"longitude"`
 	Zone        string  `json:"zone,omitempty"`
 }
 
