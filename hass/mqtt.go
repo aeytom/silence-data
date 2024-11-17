@@ -94,7 +94,7 @@ type DeviceTrackerAttributes struct {
 type Client struct {
 	Client          mqtt.Client
 	DiscoveryPrefix string
-	handles         []*silence.ScooterResp
+	Scooters        []*silence.ScooterResp
 }
 
 type Handle struct {
@@ -126,6 +126,19 @@ func Connect(cfg Config) *Client {
 	}
 
 	return &c
+}
+
+func (c *Client) Subscribe(topic string, qos byte) chan mqtt.Message {
+	choke := make(chan mqtt.Message)
+
+	msgHandler := func(client mqtt.Client, msg mqtt.Message) {
+		choke <- msg
+	}
+
+	if token := c.Client.Subscribe(topic, qos, msgHandler); token.Wait() && token.Error() != nil {
+		log.Fatalln(token.Error())
+	}
+	return choke
 }
 
 func (c *Client) Send(topic string, qos byte, retain bool, payload interface{}) {

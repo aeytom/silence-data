@@ -45,7 +45,7 @@ func main() {
 		log.Fatalln(err)
 	} else {
 		for _, sc := range scooters {
-			hass.RegisterScooter(ha, &sc)
+			hass.RegisterScooter(ha, sc)
 		}
 	}
 	sigs := make(chan os.Signal, 1)
@@ -53,6 +53,8 @@ func main() {
 
 	ticker := time.NewTicker(30 * time.Second)
 	done := make(chan bool)
+
+	hastatus := ha.Subscribe(hass.DiscoveryPrefix+"/status", 0)
 
 	go func() {
 		for {
@@ -73,9 +75,15 @@ func main() {
 				log.Printf("%#v", scooters)
 
 				for _, scooter := range scooters {
-					hass.SendStatus(ha, &scooter)
+					hass.SendStatus(ha, scooter)
 					hass.SendLocation(ha, scooter)
 					sendToInflux(ixclient, scooter)
+				}
+
+			case t := <-hastatus:
+				log.Printf("Got homeasistent msg '%v' via topic '%s'\n", t.Payload(), t.Topic())
+				for _, s := range ha.Scooters {
+					ha.SendDiscovery(*s)
 				}
 			}
 		}

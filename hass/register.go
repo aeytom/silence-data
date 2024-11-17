@@ -12,7 +12,13 @@ const (
 	StateTemplate        = "silence/%s/scooter/state"
 )
 
-func RegisterScooter(c *Client, scooter *silence.ScooterResp) {
+func RegisterScooter(c *Client, scooter silence.ScooterResp) {
+	c.SendDiscovery(scooter)
+	c.SendAvailability(scooter, true)
+	c.Scooters = append(c.Scooters, &scooter)
+}
+
+func (c *Client) SendDiscovery(scooter silence.ScooterResp) {
 	dev := DeviceDiscovery{
 		StateTopic: fmt.Sprintf(StateTemplate, scooter.Id),
 		Availability: Availability{
@@ -109,20 +115,17 @@ func RegisterScooter(c *Client, scooter *silence.ScooterResp) {
 
 	topic := fmt.Sprintf("%s/%s/%s/config", c.DiscoveryPrefix, "device", scooter.Id)
 	c.Send(topic, 0, true, dev)
-
-	SendAvailability(c, *scooter, true)
-	c.handles = append(c.handles, scooter)
 }
 
 func (c *Client) Disconnect() {
-	for _, scooter := range c.handles {
-		SendAvailability(c, *scooter, false)
+	for _, scooter := range c.Scooters {
+		c.SendAvailability(*scooter, false)
 	}
 	c.Client.Disconnect(250)
 }
 
-func SendStatus(c *Client, scooter *silence.ScooterResp) {
-	SendAvailability(c, *scooter, true)
+func SendStatus(c *Client, scooter silence.ScooterResp) {
+	c.SendAvailability(scooter, true)
 	c.Send(fmt.Sprintf(StateTemplate, scooter.Id), 0, false, scooter)
 }
 
@@ -134,7 +137,7 @@ func SendLocation(c *Client, scooter silence.ScooterResp) {
 	c.Send(fmt.Sprintf(LocationTemplate, scooter.Id), 0, false, ja)
 }
 
-func SendAvailability(c *Client, scooter silence.ScooterResp, available bool) {
+func (c *Client) SendAvailability(scooter silence.ScooterResp, available bool) {
 	pl := "offline"
 	if available {
 		pl = "online"
