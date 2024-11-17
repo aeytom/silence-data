@@ -69,11 +69,11 @@ type ProfileResponse struct {
 }
 
 type ScooterResp struct {
-	Id              string `json:"id,omitempty"`
+	Id              string `json:"id"`
 	Model           string `json:"model,omitempty"`
 	Revision        string `json:"revision,omitempty"`
 	Color           string `json:"color,omitempty"`
-	Name            string `json:"name,omitempty"`
+	Name            string `json:"name"`
 	SharedToMe      bool   `json:"shared_to_me,omitempty"`
 	BatteryOut      bool   `json:"battery_out,omitempty"`
 	AlarmActivated  bool   `json:"alarmActivated,omitempty"`
@@ -105,8 +105,8 @@ type ScooterResp struct {
 	Range               int16  `json:"range"`
 	Velocity            int16  `json:"velocity"`
 	Status              int16  `json:"status,omitempty"`
-	LastReportTime      string `json:"lastReportTime,omitempty"`
-	LastConnection      string `json:"lastConnection,omitempty"`
+	LastReportTime      string `json:"lastReportTime"`
+	LastConnection      string `json:"lastConnection"`
 }
 
 type Trip struct {

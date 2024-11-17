@@ -39,37 +39,50 @@ type Availability struct {
 	ValueTemplate       string `json:"value_template,omitempty"`
 }
 
-type DiscoverDevice struct {
-	Availability     Availability                `json:"availability,omitempty"`
-	Components       map[string]DiscoveryPayload `json:"components,omitempty"`
-	ConfigurationUrl string                      `json:"configuration_url,omitempty"`
-	Connections      map[string]string           `json:"connections,omitempty"`
-	HwVersion        string                      `json:"hw_version,omitempty"`
-	Identifiers      []string                    `json:"identifiers,omitempty"`
-	Manufacturer     string                      `json:"manufacturer,omitempty"`
-	Model            string                      `json:"model,omitempty"`
-	ModelId          string                      `json:"model_id,omitempty"`
-	Name             string                      `json:"name,omitempty"`
-	StateTopic       string                      `json:"state_topic,omitempty"`
-	SwVersion        string                      `json:"sw_version,omitempty"`
+type Origin struct {
+	Name       string `json:"name,omitempty"`
+	SwVersion  string `json:"sw_version,omitempty"`
+	SupportUrl string `json:"support_url,omitempty"`
+}
+
+type HaDevice struct {
+	ConfigurationUrl string            `json:"configuration_url,omitempty"`
+	Connections      map[string]string `json:"connections,omitempty"`
+	HwVersion        string            `json:"hw_version,omitempty"`
+	Identifiers      []string          `json:"identifiers,omitempty"`
+	Manufacturer     string            `json:"manufacturer,omitempty"`
+	Model            string            `json:"model,omitempty"`
+	ModelId          string            `json:"model_id,omitempty"`
+	Name             string            `json:"name,omitempty"`
+	SwVersion        string            `json:"sw_version,omitempty"`
 }
 
 type DiscoveryPayload struct {
-	AvailabilityTopic      string         `json:"availability_topic,omitempty"`
-	CommandTopic           string         `json:"command_topic,omitempty"`
-	Device                 DiscoverDevice `json:"device,omitempty"`
-	DeviceClass            string         `json:"device_class,omitempty"`
-	Name                   string         `json:"name,omitempty"`
-	ObjectId               string         `json:"object_id,omitempty"`
-	StateClass             string         `json:"state_class,omitempty"`
-	StateTopic             string         `json:"state_topic,omitempty"`
-	JsonAttributesTopic    string         `json:"json_attributes_topic,omitempty"`
-	JsonAttributesTemplate string         `json:"json_attributes_template,omitempty"`
-	SupportUrl             string         `json:"support_url,omitempty"`
-	SwVersion              string         `json:"sw_version,omitempty"`
-	UniqueId               string         `json:"unique_id,omitempty"`
-	UnitOfMeasurement      string         `json:"unit_of_measurement,omitempty"`
-	ValueTemplate          string         `json:"value_template,omitempty"`
+	AvailabilityTopic      string   `json:"availability_topic,omitempty"`
+	CommandTopic           string   `json:"command_topic,omitempty"`
+	Device                 HaDevice `json:"device,omitempty"`
+	DeviceClass            string   `json:"device_class,omitempty"`
+	Name                   string   `json:"name,omitempty"`
+	ObjectId               string   `json:"object_id,omitempty"`
+	StateClass             string   `json:"state_class,omitempty"`
+	StateTopic             string   `json:"state_topic,omitempty"`
+	JsonAttributesTopic    string   `json:"json_attributes_topic,omitempty"`
+	JsonAttributesTemplate string   `json:"json_attributes_template,omitempty"`
+	SupportUrl             string   `json:"support_url,omitempty"`
+	SwVersion              string   `json:"sw_version,omitempty"`
+	UniqueId               string   `json:"unique_id,omitempty"`
+	UnitOfMeasurement      string   `json:"unit_of_measurement,omitempty"`
+	ValueTemplate          string   `json:"value_template,omitempty"`
+}
+
+type DeviceDiscovery struct {
+	Availability Availability                `json:"availability,omitempty"`
+	Components   map[string]DiscoveryPayload `json:"components,omitempty"`
+	Device       HaDevice                    `json:"device,omitempty"`
+	Encoding     string                      `json:"encoding,omitempty"`
+	Origin       Origin                      `json:"origin,omitempty"`
+	Qos          int16                       `json:"qos,omitempty"`
+	StateTopic   string                      `json:"state_topic,omitempty"`
 }
 
 type DeviceTrackerAttributes struct {

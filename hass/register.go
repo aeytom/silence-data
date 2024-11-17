@@ -13,20 +13,26 @@ const (
 )
 
 func RegisterScooter(c *Client, scooter *silence.ScooterResp) {
-	dev := DiscoverDevice{
+	dev := DeviceDiscovery{
+		StateTopic: fmt.Sprintf(StateTemplate, scooter.Id),
 		Availability: Availability{
 			Topic: fmt.Sprintf(AvailabilityTemplate, scooter.Id),
 		},
-		ConfigurationUrl: "",
-		Connections:      map[string]string{"imei": scooter.Imei, "btMac": scooter.BtMac},
-		HwVersion:        scooter.Revision,
-		Identifiers:      []string{scooter.Id},
-		Manufacturer:     "Scutum",
-		Model:            scooter.Model,
-		ModelId:          "",
-		Name:             scooter.Name,
-		StateTopic:       fmt.Sprintf(StateTemplate, scooter.Id),
-		SwVersion:        scooter.TrackingDevice.FirmwareVersion,
+		Device: HaDevice{
+			ConfigurationUrl: "",
+			Connections:      map[string]string{"imei": scooter.Imei, "btMac": scooter.BtMac},
+			HwVersion:        scooter.Revision,
+			Identifiers:      []string{scooter.Id},
+			Manufacturer:     "Scutum",
+			Model:            scooter.Model,
+			ModelId:          "",
+			Name:             scooter.Name,
+			SwVersion:        scooter.TrackingDevice.FirmwareVersion,
+		},
+		Origin: Origin{
+			Name:      scooter.Name,
+			SwVersion: scooter.Revision,
+		},
 		Components: map[string]DiscoveryPayload{
 			"LastReportTime": {
 				DeviceClass:   "timestamp",
@@ -101,22 +107,11 @@ func RegisterScooter(c *Client, scooter *silence.ScooterResp) {
 		},
 	}
 
-	registerDevice(scooter, dev, c)
+	topic := fmt.Sprintf("%s/%s/%s/config", c.DiscoveryPrefix, "device", scooter.Id)
+	c.Send(topic, 0, true, dev)
 
 	SendAvailability(c, *scooter, true)
 	c.handles = append(c.handles, scooter)
-}
-
-func registerDevice(scooter *silence.ScooterResp, dev DiscoverDevice, c *Client) {
-	p := DiscoveryPayload{
-		Name:              scooter.Name,
-		AvailabilityTopic: fmt.Sprintf(AvailabilityTemplate, scooter.Id),
-		StateTopic:        fmt.Sprintf(StateTemplate, scooter.Id),
-		ObjectId:          scooter.Id,
-		Device:            dev,
-	}
-	topic := fmt.Sprintf("%s/%s/%s/config", c.DiscoveryPrefix, "device", scooter.Id)
-	c.Send(topic, 0, true, p)
 }
 
 func (c *Client) Disconnect() {
