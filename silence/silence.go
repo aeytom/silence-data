@@ -105,7 +105,7 @@ type ScooterResp struct {
 	Range               int16  `json:"range"`
 	Velocity            int16  `json:"velocity"`
 	Status              int16  `json:"status,omitempty"`
-	LastReportTime      string `json:"lastReport_time,omitempty"`
+	LastReportTime      string `json:"lastReportTime,omitempty"`
 	LastConnection      string `json:"lastConnection,omitempty"`
 }
 

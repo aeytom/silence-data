@@ -32,15 +32,26 @@ type MeterState struct {
 	UnitOfMeasurement string  `json:"unit_of_measurement,omitempty"`
 }
 
+type Availability struct {
+	PayloadAvailable    string `json:"payload_available,omitempty"`
+	PayloadNotAvailable string `json:"payload_not_available,omitempty"`
+	Topic               string `json:"topic,omitempty"`
+	ValueTemplate       string `json:"value_template,omitempty"`
+}
+
 type DiscoverDevice struct {
-	ConfigurationUrl string   `json:"configuration_url,omitempty"`
-	HwVersion        string   `json:"hw_version,omitempty"`
-	Identifiers      []string `json:"identifiers,omitempty"`
-	Manufacturer     string   `json:"manufacturer,omitempty"`
-	Model            string   `json:"model,omitempty"`
-	ModelId          string   `json:"model_id,omitempty"`
-	Name             string   `json:"name,omitempty"`
-	SwVersion        string   `json:"sw_version,omitempty"`
+	Availability     Availability                `json:"availability,omitempty"`
+	Components       map[string]DiscoveryPayload `json:"components,omitempty"`
+	ConfigurationUrl string                      `json:"configuration_url,omitempty"`
+	Connections      map[string]string           `json:"connections,omitempty"`
+	HwVersion        string                      `json:"hw_version,omitempty"`
+	Identifiers      []string                    `json:"identifiers,omitempty"`
+	Manufacturer     string                      `json:"manufacturer,omitempty"`
+	Model            string                      `json:"model,omitempty"`
+	ModelId          string                      `json:"model_id,omitempty"`
+	Name             string                      `json:"name,omitempty"`
+	StateTopic       string                      `json:"state_topic,omitempty"`
+	SwVersion        string                      `json:"sw_version,omitempty"`
 }
 
 type DiscoveryPayload struct {
@@ -59,6 +70,13 @@ type DiscoveryPayload struct {
 	UniqueId               string         `json:"unique_id,omitempty"`
 	UnitOfMeasurement      string         `json:"unit_of_measurement,omitempty"`
 	ValueTemplate          string         `json:"value_template,omitempty"`
+}
+
+type DeviceTrackerAttributes struct {
+	Longitude   float64 `json:"longitude"`
+	Latitude    float64 `json:"latitude"`
+	GpsAccuracy int16   `json:"gps_accuracy,omitempty"`
+	Zone        string  `json:"zone,omitempty"`
 }
 
 type Client struct {
