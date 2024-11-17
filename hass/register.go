@@ -28,7 +28,7 @@ func (c *Client) SendDiscovery(scooter silence.ScooterResp) {
 			ConfigurationUrl: "",
 			Connections: [][]string{
 				{"imei", scooter.Imei},
-				{"btMac", scooter.BtMac}},
+				s{"btMac", scooter.BtMac}},
 			HwVersion:    scooter.Revision,
 			Identifiers:  []string{scooter.Id},
 			Manufacturer: "Scutum",
@@ -47,7 +47,7 @@ func (c *Client) SendDiscovery(scooter silence.ScooterResp) {
 				DeviceClass:   "timestamp",
 				Name:          "LastReportTime",
 				UniqueId:      scooter.Id + "-LastReportTime",
-				ValueTemplate: "{{ value_json.lastReport_time }}",
+				ValueTemplate: "{{ value_json.lastReportTime }}",
 			},
 			"LastLocationTime": {
 				Platform:      "sensor",
