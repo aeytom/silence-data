@@ -127,11 +127,10 @@ func (c *Client) SendDiscovery(scooter silence.ScooterResp) {
 				ValueTemplate:     "{{ value_json.velocity }}",
 			},
 			"LastLocation": {
-				Platform:               "device_tracker",
-				Name:                   "LastLocation",
-				JsonAttributesTopic:    fmt.Sprintf(LocationTemplate, scooter.Id),
-				JsonAttributesTemplate: "{{ value_json }}",
-				UniqueId:               scooter.Id + "-LastLocation",
+				Platform:            "device_tracker",
+				Name:                "LastLocation",
+				JsonAttributesTopic: fmt.Sprintf(LocationTemplate, scooter.Id),
+				UniqueId:            scooter.Id + "-LastLocation",
 			},
 		},
 	}
