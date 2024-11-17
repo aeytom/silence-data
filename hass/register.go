@@ -29,6 +29,7 @@ func RegisterScooter(c *Client, scooter *silence.ScooterResp) {
 
 	registerMeasurement(scooter, dev, c, "BatterySoc", "%", "battery", "{{ value_json.batterySoc }}")
 	registerMeasurement(scooter, dev, c, "BatteryTemperature", "°C", "temperature", "{{ value_json.batteryTemperature }}")
+	registerMeasurement(scooter, dev, c, "Odometer", "km", "distance", "{{ value_json.odometer }}")
 	registerMeasurement(scooter, dev, c, "MotorTemperature", "°C", "temperature", "{{ value_json.motorTemperature }}")
 	registerMeasurement(scooter, dev, c, "InverterTemperature", "°C", "temperature", "{{ value_json.inverterTemperature }}")
 	registerMeasurement(scooter, dev, c, "Range", "km", "distance", "{{ value_json.range }}")
@@ -44,9 +45,15 @@ func registerMeasurement(scooter *silence.ScooterResp, dev DiscoverDevice, c *Cl
 	if strings.Contains(oid, "battery") {
 		oid += fmt.Sprintf("-%d", scooter.BatteryId)
 	}
+
+	sc := "measurement"
+	if name == "Odometer" {
+		sc = "total_increasing"
+	}
+
 	p := DiscoveryPayload{
 		Name:              scooter.Name + " " + name,
-		StateClass:        "measurement",
+		StateClass:        sc,
 		StateTopic:        fmt.Sprintf(StateTemplate, scooter.Id),
 		AvailabilityTopic: fmt.Sprintf(AvailabilityTemplate, scooter.Id),
 		UnitOfMeasurement: unit_of_measurement,
@@ -98,10 +105,16 @@ func SendStatus(c *Client, scooter *silence.ScooterResp) {
 }
 
 func SendLocation(c *Client, scooter silence.ScooterResp) {
-	scooter.LastLocation.Altitude = 0
-	scooter.LastLocation.CurrentSpeed = 0
-	scooter.LastLocation.Time = ""
-	c.Send(fmt.Sprintf(LocationTemplate, scooter.Id), 0, false, scooter.LastLocation)
+	ja := struct {
+		Longitude   float64 `json:"longitude"`
+		Latitude    float64 `json:"latitude"`
+		GpsAccuracy int16   `json:"gps_accuracy,omitempty"`
+		Zone        string  `json:"zone,omitempty"`
+	}{
+		Longitude: scooter.LastLocation.Longitude,
+		Latitude:  scooter.LastLocation.Latitude,
+	}
+	c.Send(fmt.Sprintf(LocationTemplate, scooter.Id), 0, false, ja)
 }
 
 func SendAvailability(c *Client, scooter silence.ScooterResp, available bool) {
